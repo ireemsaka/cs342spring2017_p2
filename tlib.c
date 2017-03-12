@@ -7,21 +7,6 @@
 #include <ucontext.h>
 #include "tlib.h"
 
-/*
-  Doubly Linked-Lists will be used for the queue implementation
-  for the user level thread
-  
-*/
-
-typedef struct node{
-    node* prev;
-    node* next;
-    // pointer for stub
-    int tid;
-}
-
-  // doublylinked-list fonksiyonlarını implement et. (add, delete, insert
-  // search???? )
 
 int tlib_init (void)
 {
