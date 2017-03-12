@@ -8,6 +8,12 @@
 #include "tlib.h"
 
 
+typedef struct node{
+    node* prev;
+    node* next;
+    int tid;
+}
+
 int tlib_init (void)
 {
     return (TLIB_ERROR);
