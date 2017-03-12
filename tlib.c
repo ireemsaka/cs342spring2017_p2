@@ -7,6 +7,11 @@
 #include <ucontext.h>
 #include "tlib.h"
 
+/*
+  Doubly Linked-Lists will be used for the queue implementation
+  for the user level thread
+  
+*/
 
 typedef struct node{
     node* prev;
@@ -15,11 +20,16 @@ typedef struct node{
     int tid;
 }
 
+  // doublylinked-list fonksiyonlarını implement et. (add, delete, insert
+  // search???? )
+
 int tlib_init (void)
 {
   // queue init edilecek
-  //stack ile ilgili bişiyler?????
-  //( queuedan sıradan threadler exec edilcek)
+  // stack ile ilgili bişiyler?????
+  // (queuedan sıradan threadler exec edilcek)
+  // timer gibi bişiyle root, bir sağa kaydırılcak belirli timeın sonunda
+
     return (TLIB_ERROR);
 }
 
@@ -27,12 +37,12 @@ int tlib_init (void)
 void stub (void (*tstartf)(void *), void *arg)
 {
 
-	tstartf (arg); /* calling thread start function to execute */
+	 tstartf (arg); /* calling thread start function to execute */
     /*
         We are done with executing the application specified thread start
         function. Hence we can now terminate the thread
     */
-	tlib_delete_thread(TLIB_SELF);
+	  tlib_delete_thread(TLIB_SELF);
     exit(0);
 }
 
