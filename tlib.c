@@ -7,6 +7,7 @@
 #include <ucontext.h>
 #include "tlib.h"
 
+//set-get context muhhabbetine bak
 
 int tlib_init (void)
 {
