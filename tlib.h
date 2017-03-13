@@ -13,7 +13,8 @@ typedef struct Node{
     node* prev;
     node* next;
     int tid;
-    ucontext_t *context;
+    int state;
+    // ucontext_t *context;
     // in ucontext.h, is a strcuture for getting and setting context.
 } Node;
 

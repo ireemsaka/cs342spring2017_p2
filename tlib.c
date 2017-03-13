@@ -7,7 +7,7 @@
 #include <ucontext.h>
 #include "tlib.h"
 
-
+Node *root;
 int tlib_init (void)
 {
   // queue init edilecek
@@ -34,43 +34,111 @@ void stub (void (*tstartf)(void *), void *arg)
 
 int tlib_create_thread(void (*func)(void *), void *param)
 {
-  /*
-      memory yoksa TLIB_NOMEMORY
-      başka bi sebepten yaraılamazsa FAILURE
-      yaratılınca SUCCESS
-      stub stacke pushlancak,
-      bi tane thread Idsi generate edilecek param kullanılabilir
-      thread Id queue'ya atılcak
-      threadId döndürülecek.
+    // ?? STUB'ı eklememiz gerekiyor mu?
+    Node *in = malloc(sizeof(Node));
+    if(!in)
+      return(TLIB_NOMEMORY);
 
-  */
-    return (TLIB_ERROR);
+    in -> prev = NULL;
+    in -> next = NULL;
+    in -> state = 0;
+    in -> tid = 1;
+    return insertToQueue(&in, &root); // not sure here?  sending pointers though?
+
+    /*
+        memory yoksa TLIB_NOMEMORY
+        başka bi sebepten yaraılamazsa FAILURE
+        yaratılınca SUCCESS
+        stub stacke pushlancak,
+        bi tane thread Idsi generate edilecek param kullanılabilir
+        thread Id queue'ya atılcak
+        threadId döndürülecek.
+
+    */
+
+
 }
 
 
 int tlib_yield(int wantTid)
 {
-    //root pointerı sağa kaydır.
+    if(wantTid == root->tid || wantTid == TLIB_SELF)
+    {
+      //yield self :)
+        return(TLIB_SELF);
+    }
+    Node *temp = searchInQueue(wantTid, &root);
+    if(temp)
+        return(TLIB_SUCCESS);
   	return (TLIB_ERROR);
 }
 
 
 int tlib_delete_thread(int tid)
 {
-    /*
-        stackten stubı sil.
-        queuedan node'u sil
+    if(tid != TLIB_SELF)
+    Node *temp = searchInQueue(tid);
+    //how do we delete itself lan.
+    if(temp){
+      temp->prev->next = temp->next;
+      temp->next->prev = temp ->prev;
+      free(temp);
+      return TLIB_SUCCESS;
+      /*
+        stackten silme???!?!?!?
+      */
+    }
 
-    */
     return (TLIB_ERROR);
 }
-
-static void insertToQueue(Node* newNode){
+static int lengthOfQueue(Node *root){
+  int length = 0;
+  Node *temp = root;
+  while(temp){
+    lenght++;
+    temp = temp->next ;
+  }
+  return lenght;
+}
+static int insertToQueue(Node* newNode, Node* root){
+    if(!root){
+        root = newNode;
+        return root -> tid;
+    }
+    else{
+        if(root->prev->tid == TLIB_MAX_THREADS)
+          return(TLIB_NOMORE);
+        Node *temp = root->prev;
+        root->prev = newNode;
+        newNode->next = root;
+        temp->next = newNode;
+        newNode->prev = temp;
+        newNode->tid = newNode->prev->tid + 1;
+        return newNode -> tid;
+    }
 
 }
-static void deleteFromQueue(Node* oldNode){
+static bool deleteFromQueue(int tid, Node *root){
+  Node *temp = root;
+  while(temp){
+    if(temp->tid == tid){
+      //free the contents of the node
+      return true; // delete_thread'de TLIB_SUCCESS dönecek.
+    }
+    temp = temp->next;
+  }
+  return false; //delete_thread'de TLIB_FAILED dönecek.
+
 
 }
-static Node* searchInQueue(Node* lookNode){
-
+static Node* searchInQueue(int tid, Node *root){
+ // yaşasın linear search :)
+ Node *temp = root;
+ while(temp){
+   if(temp->tid == tid){
+     return temp; //var ise root o thread olacak TLIB_SUCCESS;
+   }
+   temp = temp->next;
+ }
+ return NULL; //yoksa TLIB_ERROR;
 }
