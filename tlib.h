@@ -7,20 +7,16 @@
 
 /* You will define your TCB structure here */
 
+
 // https://en.wikipedia.org/wiki/Thread_control_block
-typedef struct node{
+typedef struct Node{
     node* prev;
     node* next;
-    // pointer for stub
     int tid;
-    //stack pointer
-    //PC
-    //register values
-    //state
-}
+    ucontext_t *context;
+    // in ucontext.h, is a strcuture for getting and setting context.
+} Node;
 
-  // doublylinked-list fonksiyonlarını implement et. (add, delete, insert
-  // search???? )
 
 
 /* Some definitions below */

@@ -64,3 +64,13 @@ int tlib_delete_thread(int tid)
     */
     return (TLIB_ERROR);
 }
+
+static void insertToQueue(Node* newNode){
+
+}
+static void deleteFromQueue(Node* oldNode){
+
+}
+static Node* searchInQueue(Node* lookNode){
+
+}
