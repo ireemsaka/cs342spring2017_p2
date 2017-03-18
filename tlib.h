@@ -7,23 +7,14 @@
 
 /* You will define your TCB structure here */
 
-// https://en.wikipedia.org/wiki/Thread_control_block
-typedef struct node{
-    node* prev;
-    node* next;
-    // pointer for stub
+typedef struct TCB{
+    struct TCB* prev;
+    struct TCB* next;
     int tid;
-    //stack pointer
-    //PC
-    //register values
-    //state
-}
-
-  // doublylinked-list fonksiyonlarını implement et. (add, delete, insert
-  // search???? )
-
-
-/* Some definitions below */
+    int state;
+    ucontext_t threadContext;
+    ucontext_t *context;
+}TCB;
 
 static const int TLIB_ANY = -1;
 static const int TLIB_SELF = -2;
